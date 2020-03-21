@@ -13,4 +13,19 @@ public class MessageUtil {
         System.out.println(message);
         return message;
     }
+
+    // add "Hi!" to the message
+    public String salutationMessage()
+    {
+        message = "tutorialspoint" + message;
+        System.out.println(message);
+        return message;
+    }
+
+    // add "www.tutorialspoint" to the message
+    public String exitMessage(){
+            message = "www." + message;
+        System.out.println(message);
+        return message;
+    }
 }
