@@ -4,14 +4,17 @@ package com.automation.guru99;
 import com.utilities.BrowserUtil;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.sql.Time;
 import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -22,7 +25,8 @@ import java.util.function.Function;
 
 public class AppTest3 {
     protected WebDriver driver;
-    private String URL = "https://www.google.com/gmail/about/";
+    protected WebDriverWait wait;
+    private String URL = "https://qa1.vytrack.com/user/login";
     private By seleniumLinkBy = By.xpath("//a[contains(text(), 'SELENIUM')]");
 
     private By cardProductLinkBy = By.cssSelector("a[class = card-product__link]");
@@ -74,12 +78,20 @@ public class AppTest3 {
         // click on "sign in" button
         driver.findElement(By.xpath("//ul[contains(@class,'h-c-header__cta-list header__nav--ltr')]//a[contains(@class,'h-c-header__nav-li-link')][contains(text(),'Sign in')]"));
         BrowserUtil.wait(10);
+    }
 
-        // click on akbalsedat@gmail.com
-//        driver.findElement(By.cssSelector("div#profileIdentifier"));
-//        BrowserUtil.wait(3);
+    @Test(description = "Some more exercise")
+    public void verifyDifferenceBtwAttributes(){
+        driver.findElement(By.cssSelector("#prependedInput")).sendKeys("storemanager85");
+        driver.findElement(By.cssSelector("#prependedInput2")).sendKeys("hello", Keys.ENTER);
 
+        wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".alert.alert-error > div")));
 
+        WebElement webElement = driver.findElement(By.cssSelector(".alert.alert-error > div"));
+        String webElementText = webElement.getText();
+        String expected = "Invalid user name or password.";
+        Assert.assertEquals(webElementText, expected);
     }
 
     @BeforeMethod (description = "This is setup before any method starts.")
@@ -88,7 +100,6 @@ public class AppTest3 {
         driver = new FirefoxDriver();
         driver.get(URL);
         driver.manage().window().maximize();
-        BrowserUtil.wait(5);
     }
 
     @AfterMethod

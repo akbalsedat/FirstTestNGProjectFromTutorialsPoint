@@ -13,7 +13,7 @@ public class BrowserFactory {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 return new ChromeDriver();
-            case " ":
+            case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 return new FirefoxDriver();
         }
